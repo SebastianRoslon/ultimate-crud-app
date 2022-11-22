@@ -1,11 +1,16 @@
 package pl.roslon.ultimate.controller;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import pl.roslon.ultimate.Student;
 import pl.roslon.ultimate.repository.StudentRepository;
 import pl.roslon.ultimate.repository.TeacherRepository;
+
+import java.util.List;
 
 @org.springframework.stereotype.Controller
 public class Controller {

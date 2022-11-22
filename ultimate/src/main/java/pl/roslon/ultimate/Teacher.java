@@ -1,5 +1,6 @@
 package pl.roslon.ultimate;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import javax.persistence.Entity;
@@ -9,10 +10,10 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 @Getter
 @Entity
+@AllArgsConstructor
 public class Teacher {
 
     @Id
@@ -25,18 +26,11 @@ public class Teacher {
     @Email(message = "Email should be valid")
     private String email;
     private String subject;
+    private Student student;
 
-    public Teacher(String name, String surname, int age, String email, String subject) {
-        this.name = name;
-        this.surname = surname;
-        this.age = age;
-        this.email = email;
-        this.subject = subject;
-    }
-
-    List<Student> studentList = new ArrayList<>();
 
     public List<Student> addStudent(Student student) {
+        List<Student> studentList = new ArrayList<>();
         studentList.add(student);
         return studentList;
     }
