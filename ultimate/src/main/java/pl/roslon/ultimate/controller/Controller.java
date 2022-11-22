@@ -1,26 +1,24 @@
 package pl.roslon.ultimate.controller;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import pl.roslon.ultimate.Student;
+import pl.roslon.ultimate.StudentService;
 import pl.roslon.ultimate.repository.StudentRepository;
 import pl.roslon.ultimate.repository.TeacherRepository;
-
-import java.util.List;
 
 @org.springframework.stereotype.Controller
 public class Controller {
 
     private final StudentRepository studentRepository;
     private final TeacherRepository teacherRepository;
+    private final StudentService studentService;
 
-    public Controller(StudentRepository studentRepository, TeacherRepository teacherRepository) {
+    public Controller(StudentRepository studentRepository, TeacherRepository teacherRepository, StudentService studentService) {
         this.studentRepository = studentRepository;
         this.teacherRepository = teacherRepository;
+        this.studentService = studentService;
     }
 
 
@@ -47,9 +45,4 @@ public class Controller {
         studentRepository.findAll();
         return "index";
     }
-
-
-
-
-
 }
