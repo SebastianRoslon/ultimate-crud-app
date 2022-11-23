@@ -1,7 +1,8 @@
-package pl.roslon.ultimate;
+package pl.roslon.ultimate.entity;
 
 import lombok.Getter;
 import org.springframework.stereotype.Component;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
@@ -10,9 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name = "students")
-//@Data
-//@NoArgsConstructor
-//@AllArgsConstructor
 @Getter
 @Component
 public class Student {

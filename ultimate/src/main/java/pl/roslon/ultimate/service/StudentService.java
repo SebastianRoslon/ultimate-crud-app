@@ -1,11 +1,15 @@
 package pl.roslon.ultimate.service;
 
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import pl.roslon.ultimate.Student;
-import pl.roslon.ultimate.Teacher;
+import pl.roslon.ultimate.entity.Student;
+import pl.roslon.ultimate.entity.Teacher;
+import pl.roslon.ultimate.payload.StudentResponse;
 import pl.roslon.ultimate.repository.StudentRepository;
 
 import java.util.List;
@@ -17,45 +21,57 @@ public class StudentService {
     private final Student student;
     private final StudentRepository studentRepository;
 
+    public StudentResponse getAllStudents(int pageNo, int pageSize, String sortBy, String sortDir) {
+        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
+        Page<Student> all = studentRepository.findAll(pageable);
+        List<Student> students = all.getContent();
+        List<Student> content = students.stream().toList();
 
-
-    public String save(Student student) {
-        studentRepository.save(student);
-        return ("redirect:/saveStudent");
+        StudentResponse studentResponse = new StudentResponse();
+        studentResponse.setContent(content);
+        studentResponse.setPageSize(all.getSize());
+        studentResponse.setPageNo(all.getNumber());
+        studentResponse.setTotalElements(all.getTotalElements());
+        studentResponse.setTotalPages(all.getTotalPages());
+        studentResponse.setLast(all.isLast());
+        return studentResponse;
     }
 
-    public String editStudent(@PathVariable("id") long id, Student student) {
-        studentRepository.save(student);
-        return ("update-student");
+
+    public Student save(Student student) {
+        return studentRepository.save(student);
     }
 
-    public String deleteStudnet(@PathVariable("id") long id, Student student) {
+    public Student editStudent(@PathVariable("id") long id, Student student) {
+        return studentRepository.save(student);
+    }
+
+    public void deleteStudnet(@PathVariable("id") long id, Student student) {
         studentRepository.delete(student);
-        return "redirect:/index";
     }
 
 
-    public String showStudentsList() {
-        studentRepository.findAll();
-        return "index";
+    public List<Student> showStudentsList() {
+        return (List<Student>) studentRepository.findAll();
     }
 
-    List<Teacher> addTeacher(Teacher teacher) {
+    public List<Teacher> addTeacherToStudentsList(Teacher teacher) {
         student.getTeachersList().add(teacher);
         return student.getTeachersList();
     }
 
-    List<Teacher> deleteTeacher(Teacher teacher) {
+    public List<Teacher> deleteTeacherFromStudentsList(Teacher teacher) {
         student.getTeachersList().remove(teacher);
         return student.getTeachersList();
     }
 
-    List<Teacher> findTeacherByNameAndSurname(String name, String surmane) {
+    public List<Teacher> findTeacherByNameAndSurname(String name, String surmane) {
         student.getTeachersList().stream().filter(teacher -> teacher.getName().equals(name) && teacher.getSurname().equals(surmane)).toList();
         return student.getTeachersList();
     }
 
-    List<Teacher> findAllTeachersForOneStudent(String StudentName) {
+    public List<Teacher> findAllTeachersForOneStudent(Student student) {
         student.getTeachersList().forEach(System.out::println);
         return student.getTeachersList();
     }

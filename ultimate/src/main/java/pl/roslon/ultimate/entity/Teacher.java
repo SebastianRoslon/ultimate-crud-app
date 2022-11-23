@@ -1,7 +1,8 @@
-package pl.roslon.ultimate;
+package pl.roslon.ultimate.entity;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.springframework.stereotype.Component;
+import pl.roslon.ultimate.entity.Student;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,6 +16,7 @@ import java.util.List;
 
 @Getter
 @Entity(name = "teachers")
+@Component
 public class Teacher {
 
     @Id
@@ -30,10 +32,5 @@ public class Teacher {
     private String subject;
     @ManyToMany(mappedBy = "teachersList")
     private List<Student> studentList = new ArrayList<>();
-//    public List<Student> addStudent(Student student) {
-//        List<Student> studentList = new ArrayList<>();
-//        studentList.add(student);
-//        return studentList;
-//    }
 
 }
