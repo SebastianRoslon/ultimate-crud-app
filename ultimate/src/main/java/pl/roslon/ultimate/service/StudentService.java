@@ -47,7 +47,7 @@ public class StudentService {
         return studentRepository.save(student);
     }
 
-    public void deleteStudnet(@PathVariable("id") long id, Student student) {
+    public void deleteStudent(@PathVariable("id") long id, Student student) {
         studentRepository.delete(student);
     }
 
