@@ -1,21 +1,24 @@
 package pl.roslon.ultimate;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import lombok.Getter;
+import org.springframework.stereotype.Component;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@Data
-@AllArgsConstructor
-public class Student{
+@Entity(name = "students")
+//@Data
+//@NoArgsConstructor
+//@AllArgsConstructor
+@Getter
+@Component
+public class Student {
 
     @Id
+    @GeneratedValue
     private long id;
     @Size(min = 10)
     private String name;
@@ -25,7 +28,11 @@ public class Student{
     @Email(message = "Email should be valid")
     private String email;
     private String specialization;
-    private List<Teacher> teachersList;
+    @ManyToMany
+    @JoinTable(name = "students_teachers",
+            joinColumns = @JoinColumn(name = "student_id"),
+            inverseJoinColumns = @JoinColumn(name = "teacher_id"))
+    private List<Teacher> teachersList = new ArrayList<>();
 
 
 }
