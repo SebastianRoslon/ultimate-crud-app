@@ -1,5 +1,6 @@
 package pl.roslon.ultimate.controller;
 
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import pl.roslon.ultimate.entity.Student;
 import pl.roslon.ultimate.entity.Teacher;
@@ -7,14 +8,12 @@ import pl.roslon.ultimate.payload.StudentResponse;
 import pl.roslon.ultimate.service.StudentService;
 
 @RestController
+@AllArgsConstructor
 public class StudentController {
 
     private final StudentService studentService;
 
-    public StudentController(StudentService studentService) {
-        this.studentService = studentService;
-    }
-    @GetMapping("/all-student-paging")
+    @GetMapping("/all-students-paging")
     public StudentResponse getAllStudents(@RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
                                           @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize,
                                           @RequestParam(value = "sortBy", defaultValue = "id", required = false) String sortBy,
@@ -22,6 +21,11 @@ public class StudentController {
         return studentService.getAllStudents(pageNo, pageSize, sortBy, sortDir);
     }
 
+    @GetMapping("/all-students-sort")
+    public String getAllStudentsSorted() {
+        studentService.studentsSort();
+        return ("index");
+    }
 
     @PostMapping("/addStudent")
     public String addStudent(Student student) {

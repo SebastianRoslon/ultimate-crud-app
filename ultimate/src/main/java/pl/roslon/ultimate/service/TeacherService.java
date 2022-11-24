@@ -12,6 +12,7 @@ import pl.roslon.ultimate.entity.Teacher;
 import pl.roslon.ultimate.payload.TeacherResponse;
 import pl.roslon.ultimate.repository.TeacherRepository;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -77,5 +78,9 @@ public class TeacherService {
         teacher.getStudentList().forEach(System.out::println);
         return teacher.getStudentList();
     }
-
+    public Teacher[] teachersSort(){
+        Teacher[]teachers = (Teacher[]) teacherRepository.findAll().toArray();
+        Arrays.sort(teachers, new Teacher.TeacherNameComparator());
+        return teachers;
+    }
 }

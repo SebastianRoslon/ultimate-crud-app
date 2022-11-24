@@ -1,8 +1,8 @@
 package pl.roslon.ultimate.entity;
 
+import lombok.Data;
 import lombok.Getter;
 import org.springframework.stereotype.Component;
-import pl.roslon.ultimate.entity.Student;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,11 +12,13 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Getter
 @Entity(name = "teachers")
 @Component
+@Data
 public class Teacher {
 
     @Id
@@ -33,4 +35,11 @@ public class Teacher {
     @ManyToMany(mappedBy = "teachersList")
     private List<Student> studentList = new ArrayList<>();
 
+
+    public static class TeacherNameComparator implements Comparator<Teacher> {
+        @Override
+        public int compare(Teacher o1, Teacher o2) {
+            return o1.getName().compareTo(o2.getName());
+        }
+    }
 }
